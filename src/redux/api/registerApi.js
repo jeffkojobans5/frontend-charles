@@ -14,7 +14,6 @@ import {
 
 export const registerUser = async (dispatch, navigate, emailData) => {
   dispatch(register_begin())
-
   try {
     // call register API
     const RegisterUser = await axios.post(registerURL, emailData)
@@ -30,7 +29,8 @@ export const registerUser = async (dispatch, navigate, emailData) => {
     cookies.set("user_name", RegisterUser.data.user.username)
 
     dispatch(register_success())
-    navigate("/blog")
+    // navigate("/blog")
+    window.location.href = "http://localhost:3000/"
   } catch (error) {
     // console.log("error", error.response.data.error.message);
     Swal.fire({
@@ -59,7 +59,8 @@ export const loginUser = async (dispatch, navigate, emailData) => {
     cookies.set("user_name", LoginUser.data.user.username)
 
     dispatch(login_success(emailData))
-    navigate("/blog")
+    // navigate("/blog")
+    window.location.href = "http://localhost:3000/"
   } catch (error) {
     // console.log("error", error.response.data.error.message);
 

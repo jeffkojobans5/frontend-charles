@@ -24,7 +24,7 @@ export default function EditPostForm() {
         setLoading(false)
         setPostForm({
           title: posts["data"]["data"]["attributes"]["title"],
-          post: posts["data"]["data"]["attributes"]["title"]
+          post: posts["data"]["data"]["attributes"]["post"]
         })
       }
     } catch (error) {
@@ -70,16 +70,16 @@ export default function EditPostForm() {
   }
 
   return (
-    <div className="container mt-8 mx-auto w-4/6">
+    <div className="container w-4/6 mx-auto mt-8">
       <form onSubmit={submitFunc}>
-        <div className="mx-auto max-w-2xl lg:mx-0">
+        <div className="max-w-2xl mx-auto lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Edit Post
           </h2>
         </div>
         <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="pb-12 border-b border-gray-900/10">
+            <div className="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-4">
                 <label
                   htmlFor="username"
@@ -119,7 +119,7 @@ export default function EditPostForm() {
                 </div>
               </div>
             </div>
-            <button className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+            <button className="px-4 py-2 mt-5 font-bold text-white bg-blue-500 border border-blue-700 rounded hover:bg-blue-700">
               Update
             </button>
           </div>
