@@ -1,29 +1,29 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 
-import { registerUser } from "../redux/api/registerApi";
+import { registerUser } from "../redux/api/registerApi"
 
 export default function Registration() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [registerForm, setRegisterForm] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
-  });
+    confirmPassword: ""
+  })
 
   const formChangeFunc = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setRegisterForm({ ...registerForm, [name]: value });
-  };
+    const name = e.target.name
+    const value = e.target.value
+    setRegisterForm({ ...registerForm, [name]: value })
+  }
 
   const registerUserFunc = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // console.log(registerForm);
     if (
@@ -34,26 +34,25 @@ export default function Registration() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Field(s) cannot be empty",
-      });
+        text: "Field(s) cannot be empty"
+      })
     }
 
     if (registerForm.confirmPassword != registerForm.password) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Passwords must match",
-      });
+        text: "Passwords must match"
+      })
     }
 
-    registerUser(dispatch, navigate, registerForm);
-  };
+    registerUser(dispatch, navigate, registerForm)
+  }
 
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-10 w-auto" src="#" alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
@@ -75,7 +74,7 @@ export default function Registration() {
                   value={registerForm.email}
                   autoComplete="email"
                   onChange={formChangeFunc}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block p-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -94,7 +93,7 @@ export default function Registration() {
                   value={registerForm.username}
                   autoComplete="username"
                   onChange={formChangeFunc}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block p-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -103,7 +102,7 @@ export default function Registration() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block  text-sm font-medium leading-6 text-gray-900"
                 >
                   Password
                 </label>
@@ -116,7 +115,7 @@ export default function Registration() {
                   value={registerForm.password}
                   autoComplete="email"
                   onChange={formChangeFunc}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block p-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -125,7 +124,7 @@ export default function Registration() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block  text-sm font-medium leading-6 text-gray-900"
                 >
                   Confirm Password
                 </label>
@@ -154,16 +153,14 @@ export default function Registration() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            {/* Not a member?{" "} */}
-            <a
-              href="#"
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >
-              {/* Start a 14 day free trial */}
-            </a>
+            <Link to="/login" className="m-10 text-sm text-gray-500">
+              {" "}
+              Already have an account ?{" "}
+              <span className="text-red-700">Login</span>{" "}
+            </Link>
           </p>
         </div>
       </div>
     </>
-  );
+  )
 }

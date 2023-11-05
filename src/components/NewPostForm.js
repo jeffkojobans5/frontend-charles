@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import Cookies from "universal-cookie"
@@ -90,7 +90,7 @@ export default function NewPostForm() {
               </div>
             </div>
             <button className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-              Button
+              Submit
             </button>
           </div>
         </div>

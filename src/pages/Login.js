@@ -1,45 +1,44 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 
-import { loginUser } from "../redux/api/registerApi";
+import { loginUser } from "../redux/api/registerApi"
 
 export default function LoginUser() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [loginForm, setLoginForm] = useState({
     identifier: "",
-    password: "",
-  });
+    password: ""
+  })
 
   const formChangeFunc = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setLoginForm({ ...loginForm, [name]: value });
-  };
+    const name = e.target.name
+    const value = e.target.value
+    setLoginForm({ ...loginForm, [name]: value })
+  }
 
   const loginUserFunc = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // console.log(registerForm);
     if (loginForm.email == "" || loginForm.password == "") {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Field(s) cannot be empty",
-      });
+        text: "Field(s) cannot be empty"
+      })
     }
 
-    loginUser(dispatch, navigate, loginForm);
-  };
+    loginUser(dispatch, navigate, loginForm)
+  }
 
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-10 w-auto" src="#" alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
@@ -61,7 +60,7 @@ export default function LoginUser() {
                   value={loginForm.identifier}
                   autoComplete="email"
                   onChange={formChangeFunc}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block p-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -83,7 +82,7 @@ export default function LoginUser() {
                   value={loginForm.password}
                   autoComplete="email"
                   onChange={formChangeFunc}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block p-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -99,16 +98,13 @@ export default function LoginUser() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            {/* Not a member?{" "} */}
-            <a
-              href="#"
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >
-              {/* Start a 14 day free trial */}
-            </a>
+            <Link to="/register" className="text-sm text-gray-500">
+              {" "}
+              Not a member ? <span className="text-red-700">Register</span>{" "}
+            </Link>
           </p>
         </div>
       </div>
     </>
-  );
+  )
 }

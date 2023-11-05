@@ -1,42 +1,58 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
+import axios from "axios"
 import Swal from "sweetalert2"
 import Cookies from "universal-cookie"
-import { editBlogApi, editTitle } from "./../redux/api/BlogAPI"
+import { updateBlog } from "./../redux/api/BlogAPI"
 
 import { Form } from "../redux/api/submitFormApi"
+import { fetchPostURL } from "../constants/apis"
 
 export default function EditPostForm() {
+  const editBlogApi = async () => {
+    try {
+      const cookies = new Cookies()
+      const token = cookies.get("user_jwt")
+      const BEARER = "bearer"
+
+      const posts = await axios.get(`${fetchPostURL}/${id}`, {
+        headers: { Authorization: `${BEARER} ${token}` }
+      })
+
+      if (posts["status"] == 200) {
+        setLoading(false)
+        setPostForm({
+          title: posts["data"]["data"]["attributes"]["title"],
+          post: posts["data"]["data"]["attributes"]["title"]
+        })
+      }
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const cookies = new Cookies()
   const { id } = useParams()
-  const { loading, post } = useSelector((state) => state.fetchPost)
 
   useEffect(() => {
-    editBlogApi(dispatch, id)
+    editBlogApi()
   }, [])
 
-  const [postForm, setPostForm] = useState({ ...post })
+  const [postForm, setPostForm] = useState({ title: "", post: "" })
+  const [loading, setLoading] = useState(true)
+
   const formChangeFunc = (e) => {
     const name = e.target.name
     const value = e.target.value
-    console.log("postForm", postForm)
     setPostForm({ ...postForm, [name]: value })
   }
-
-  useEffect(() => {
-    setPostForm({ ...post })
-    console.log(postForm)
-  }, [loading])
-
-  console.log("postForm ", postForm)
 
   const submitFunc = (e) => {
     e.preventDefault()
 
-    // console.log(registerForm);
     if (postForm.title == "" || postForm.post == "") {
       Swal.fire({
         icon: "error",
@@ -46,16 +62,12 @@ export default function EditPostForm() {
       return
     }
 
-    Form(dispatch, navigate, postForm)
+    updateBlog(dispatch, navigate, postForm, id)
   }
 
   if (loading) {
     return <p> Loading </p>
   }
-
-  // if (postForm) {
-  //   return <p>true</p>
-  // }
 
   return (
     <div className="container mt-8 mx-auto w-4/6">
@@ -80,8 +92,8 @@ export default function EditPostForm() {
                     <input
                       type="text"
                       name="title"
-                      value={postForm["posts"]["attributes"]["title"]}
-                      onChange={(event) => editTitle(event, dispatch)}
+                      value={postForm["title"]}
+                      onChange={formChangeFunc}
                       autoComplete="given-name"
                       className="block p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -99,17 +111,16 @@ export default function EditPostForm() {
                 <div className="mt-2">
                   <textarea
                     name="post"
-                    value={post["posts"]["attributes"]["post"]}
+                    value={postForm["post"]}
                     onChange={formChangeFunc}
                     rows={3}
                     className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={""}
                   />
                 </div>
               </div>
             </div>
             <button className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-              Button
+              Update
             </button>
           </div>
         </div>

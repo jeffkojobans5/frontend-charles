@@ -1,6 +1,5 @@
 import axios from "axios"
 import Swal from "sweetalert2"
-import { Dispatch } from "redux"
 import { newPostURL } from "../../constants/apis"
 import Cookies from "universal-cookie"
 
@@ -19,7 +18,6 @@ export const Form = async (dispatch, navigate, formData) => {
     const token = cookies.get("user_jwt")
     const BEARER = "bearer"
 
-    console.log("form ", formData)
     const NewPost = await axios.post(
       newPostURL,
       {

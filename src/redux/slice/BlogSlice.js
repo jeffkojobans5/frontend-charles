@@ -6,7 +6,8 @@ const fetchPostSlice = createSlice({
     posts: [],
     post: [],
     error: false,
-    loading: true
+    loading: true,
+    deleteloading: true
   },
 
   reducers: {
@@ -22,20 +23,27 @@ const fetchPostSlice = createSlice({
       state.loading = false
       state.error = true
     },
-    fetchSinglePost_begin: (state) => {
+    updatePost_begin: (state) => {
       state.loading = true
       state.error = false
     },
-    fetchSinglePost_success: (state, action) => {
+    updatePost_success: (state) => {
       state.loading = false
-      state.post = action.payload
     },
-    fetchSinglePost_error: (state) => {
+    updatePost_error: (state) => {
       state.loading = false
       state.error = true
     },
-    updateTitle: (action) => {
-      console.log("action", action.payload)
+    deletePost_begin: (state) => {
+      state.deleteloading = true
+      state.error = false
+    },
+    deletePost_success: (state) => {
+      state.deleteloading = false
+    },
+    deletePost_error: (state) => {
+      state.deleteloading = false
+      state.error = true
     }
   }
 })
@@ -46,8 +54,10 @@ export const {
   fetchPost_begin,
   fetchPost_error,
   fetchPost_success,
-  fetchSinglePost_begin,
-  fetchSinglePost_error,
-  fetchSinglePost_success,
-  updateTitle
+  updatePost_begin,
+  updatePost_error,
+  updatePost_success,
+  deletePost_begin,
+  deletePost_error,
+  deletePost_success
 } = fetchPostSlice.actions

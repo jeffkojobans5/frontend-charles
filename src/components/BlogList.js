@@ -1,23 +1,23 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import fetchBlogApi from "../redux/api/BlogAPI"
+import fetchBlogApi, { deleteBlog } from "../redux/api/BlogAPI"
 import moment from "moment"
 import Cookies from "universal-cookie"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function BlogList() {
   const dispatch = useDispatch()
   const { loading, posts } = useSelector((state) => state.fetchPost)
   const cookies = new Cookies()
   const current_user = cookies.get("user_name")
-  console.log(current_user)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchBlogApi(dispatch)
   }, [])
 
   if (loading) {
-    console.log(posts.length)
     return <p> Loading </p>
   }
 
@@ -40,13 +40,22 @@ export default function BlogList() {
             >
               <div className="flex items-center gap-x-4 text-xs">
                 <p> {moment(post["attributes"]["publishedAt"]).fromNow()} </p>
-                {post["attributes"]["author"] == current_user ? (
-                  <Link
-                    to={`/editPost/${post["id"]}`}
-                    className="bg-red-300 z-10 px-3 py-1 rounded"
-                  >
-                    Edit Post
-                  </Link>
+                {post["attributes"]["author"] === current_user ? (
+                  <>
+                    <Link
+                      to={`/editPost/${post["id"]}`}
+                      className="bg-red-300 z-10 px-3 py-1 rounded"
+                    >
+                      Edit Post
+                    </Link>
+                    <button
+                      className="bg-orange-300 px-3 py-1 rounded"
+                      onClick={() => deleteBlog(dispatch, navigate, post["id"])}
+                    >
+                      {" "}
+                      Delete Post
+                    </button>
+                  </>
                 ) : (
                   ""
                 )}
@@ -57,12 +66,7 @@ export default function BlogList() {
                   {post["attributes"]["title"]}
                 </h3>
                 <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electron
+                  {post["attributes"]["post"]}
                 </p>
               </div>
               <div className="relative mt-8 flex items-center gap-x-4">

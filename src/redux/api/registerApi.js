@@ -44,7 +44,6 @@ export const registerUser = async (dispatch, navigate, emailData) => {
 
 export const loginUser = async (dispatch, navigate, emailData) => {
   dispatch(login_begin())
-  console.log(emailData)
   try {
     // call login API
     const LoginUser = await axios.post(loginURL, emailData)
@@ -63,7 +62,6 @@ export const loginUser = async (dispatch, navigate, emailData) => {
     navigate("/blog")
   } catch (error) {
     // console.log("error", error.response.data.error.message);
-    console.log("error", error)
 
     Swal.fire({
       icon: "error",
@@ -72,4 +70,10 @@ export const loginUser = async (dispatch, navigate, emailData) => {
     })
     dispatch(login_error())
   }
+}
+
+export const Logout = () => {
+  const cookies = new Cookies()
+  cookies.remove("user_jwt")
+  cookies.remove("user_name")
 }
